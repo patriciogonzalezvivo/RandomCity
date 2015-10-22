@@ -24,7 +24,7 @@ git clone https://github.com/patriciogonzalezvivo/data-landscape.git
 - Open crontab
 
 ```bash
-
+crontab -e
 ```
 
 - Add ```runShader.sh``` to be run every reboot
