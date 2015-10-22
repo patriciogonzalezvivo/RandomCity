@@ -21,21 +21,21 @@ cd ~
 git clone https://github.com/patriciogonzalezvivo/data-landscape.git
 ```
 
-- Add ```runShader.sh``` to crontab
+- Open crontab
 
 ```bash
 
 ```
 
-Write
+- Add ```runShader.sh``` to be run every reboot
 
 ```
-@reboot /home/pi/data-landscape/shader/./runShader.sh
+@reboot /home/pi/data-landscape/shaders/./runShader.sh
 ```
 
 ## To Change the shader just do
 
 ```bash
-cd ~/data-landscape/shader
+cd ~/data-landscape/shaders
 ln -sf ikeda-00.frag default.frag
 ```
