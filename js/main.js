@@ -2,8 +2,7 @@
 
 // ============================================= VARIABLES
 //
-var latlon; 
-var place = "";
+var latlon, place;
 var placeCounter = 0;
 var createObjectURL = (window.URL && window.URL.createObjectURL) || (window.webkitURL && window.webkitURL.createObjectURL);
 
@@ -46,21 +45,14 @@ function init() {
     });
     layer.addTo(map);
 
+    place="";
     updateLocation("");
 }
 
 // ============================================= UPDATE
 
 function update(time) {   // time in seconds since Jan. 01, 1970 UTC
-    // Update position to the satelite
-    latlon = map.getCenter();
-    
-    document.getElementById('left-lat').innerHTML = "LAT " + latlon.lat.toFixed(4);
-    document.getElementById('left-lon').innerHTML = "LON " + latlon.lng.toFixed(4);
-    
-    // Update Sun position
-    var now = new Date();
-    document.getElementById('left-time').innerHTML = now.getTime().toString();
+
 }
 
 function updateLocation(text) {
