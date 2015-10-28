@@ -1,9 +1,8 @@
 ![](imgs/image.png)
 
-# DataScape
-### WebGL map using open data from openStreetMap 
+# DataScape / Pulses / PulseScape / Procedural / fract(sin(x)*1e4) 
 
-Description:
+**Description**: Procedural landscape constructed from the aleatory outcomes of ```fract(sin(x)*1e4)```. This function produce random pulses covers the extruded and tessellated data from OpenStreetMap. Vibran and chaotic these streams of random pulses compose a cold view of a digital world inspired on the artist Ryoji Ikeda. 
 
 About the author: Patricio Gonzalez Vivo, 
 
