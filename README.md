@@ -4,7 +4,9 @@
 
 **Description**: Procedural landscape constructed from the aleatory outcomes of ```fract(sin(x)*1e4)```. This function produce random pulses covers the extruded and tessellated data from OpenStreetMap. Vibran and chaotic these streams of random pulses compose a cold view of a digital world inspired on the artist Ryoji Ikeda. 
 
-About the author: Patricio Gonzalez Vivo, 
+**Author**: Patricio Gonzalez Vivo (Buenos Aires, 1982) is a New York based artist and engineer. He explores interstitial spaces between organic and synthetic, analog and digital, individual and collective. 
+
+Patricio studied and practiced psychotherapy and expressive art therapy . He holds an MFA in Design & Technology from Parsons The New School, where he now teaches. Currently he works as a Graphic Engineer at Mapzen making openSource mapping tools.
 
 
 ## Load sample shaders on RaspberryPi
