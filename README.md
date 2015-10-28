@@ -1,6 +1,14 @@
+![](imgs/image.png)
+
+# DataScape
+### WebGL map using open data from openStreetMap 
+
+Description:
+
+About the author: Patricio Gonzalez Vivo, 
 
 
-# Automaticaly load shaders on RaspberryPi
+## Load sample shaders on RaspberryPi
 
 - After installing Raspbian, set the GPU memory to 258
 
@@ -33,7 +41,7 @@ crontab -e
 @reboot /home/pi/data-landscape/shaders/./runShader.sh
 ```
 
-## To Change the shader just do
+### To Change the shader just do
 
 ```bash
 cd ~/data-landscape/shaders
