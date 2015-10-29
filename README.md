@@ -4,17 +4,15 @@
 
 **Description**: The incessant energy of the city is transformed into aleatoric movement covering the extruded and tessellated forms of crowdsourced OpenStreetMap data. Though the streams are chaotic, they coalesce into a kind of digital harmony. Inspired by the artist [Ryoji Ikea](http://www.ryojiikeda.com/).
 
-__ **Descripción** : La energía incesante de la ciudad se transforma en movimiento aleatorio que cubre las geometrías generadas de OpenStreetMap. Aunque las corrientes son caóticas, se unen en una armonía digital. Inspirado por el artista [Ryoji Ikea](http://www.ryojiikeda.com/). __
-
-———————————————————
+***Descripción**: La energía incesante de la ciudad se transforma en movimiento aleatorio que cubre las geometrías generadas de OpenStreetMap. Aunque las corrientes son caóticas, se unen en una armonía digital. Inspirado por el artista [Ryoji Ikea](http://www.ryojiikeda.com*/).*
 
 **Author**: Patricio Gonzalez Vivo (Buenos Aires, 1982) is a New York based artist and engineer. He explores interstitial spaces between organic and synthetic, analog and digital, individual and collective.
 
 Patricio studied and practiced psychotherapy and expressive art therapy. He holds an MFA in Design & Technology from Parsons The New School, where he now teaches. Currently he works as a Graphic Engineer at Mapzen making openSource mapping tools.
 
-__ **Autor**: Patricio González Vivo (Buenos Aires, 1982) es un artista y programador con sede en Nueva York. Él explora los espacios intersticiales entre lo orgánico y sintético, análogo y digital, individual y colectivo. __
+***Autor**: Patricio González Vivo (Buenos Aires, 1982) es un artista y programador con sede en Nueva York. Él explora los espacios intersticiales entre lo orgánico y sintético, análogo y digital, individual y colectivo*.
 
-__ Patricio estudió y practicó psicología y psicoterapia expresiva. Posee una Maestría en Diseño y Tecnología de Parsons The New School, donde ahora enseña. Actualmente se desempeña como Ingeniero Gráfico en Mapzen fabricando herramientas openSource. __
+*Patricio estudió y practicó psicología y psicoterapia expresiva. Posee una Maestría en Diseño y Tecnología de Parsons The New School, donde ahora enseña. Actualmente se desempeña como Ingeniero Gráfico en Mapzen fabricando herramientas openSource*.
 
 
 ## Load sample shaders on RaspberryPi
