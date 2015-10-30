@@ -1,6 +1,6 @@
 ![](imgs/image.png)
 
-# CityPatterns
+# RandomCity
 
 **Description**: The incessant energy of the city is transformed into aleatoric movement covering the extruded and tessellated forms of crowdsourced OpenStreetMap data. Though the streams are chaotic, they coalesce into a kind of digital harmony. Inspired by the artist [Ryoji Ikea](http://www.ryojiikeda.com/).
 
@@ -15,7 +15,7 @@ Patricio studied and practiced psychotherapy and expressive art therapy. He hold
 *Patricio estudió y practicó psicología y psicoterapia expresiva. Posee una Maestría en Diseño y Tecnología de Parsons The New School, donde ahora enseña. Actualmente se desempeña como Ingeniero Gráfico en Mapzen fabricando herramientas openSource*.
 
 
-## Load sample shaders on RaspberryPi
+## Displaying individual shaders on RaspberryPi
 
 - After installing Raspbian, set the GPU memory to 258
 
@@ -33,7 +33,7 @@ sudo make install
 
 ```bash
 cd ~ 
-git clone https://github.com/patriciogonzalezvivo/CityPatterns.git
+git clone https://github.com/patriciogonzalezvivo/RandomCity.git
 ```
 
 - Open crontab
@@ -42,10 +42,10 @@ git clone https://github.com/patriciogonzalezvivo/CityPatterns.git
 crontab -e
 ```
 
-- Add ```runShader.sh``` to be run every reboot
+- Add ```runShader.sh``` to crontab list to be run every reboot.
 
 ```
-@reboot /home/pi/CityPatterns/shaders/./runShader.sh
+@reboot /home/pi/RandomCity/shaders/./runShader.sh
 ```
 
 ### To Change the shader just do
