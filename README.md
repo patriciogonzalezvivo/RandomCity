@@ -51,6 +51,6 @@ crontab -e
 ### To Change the shader just do
 
 ```bash
-cd ~/CityPatterns/shaders
-ln -sf ikeda-00.frag default.frag
+cd ~/RandomCity/shaders
+ln -sf 00.frag default.frag
 ```
