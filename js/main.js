@@ -5,6 +5,8 @@
 var latlon, place;
 var placeCounter = 0;
 var createObjectURL = (window.URL && window.URL.createObjectURL) || (window.webkitURL && window.webkitURL.createObjectURL);
+var offset_target = [0, 0];
+var offset = [0,0];
 
 // ============================================= INIT 
 map = (function () {
@@ -41,17 +43,38 @@ function init() {
 
     // Scene initialized
     layer.on('init', function() {    
-        window.setInterval("update(getCurrentTime())", 1000);
+        window.setInterval("update(getCurrentTime())", 100);
     });
     layer.addTo(map);
 
     place="";
     updateLocation("");
+
+    if (window.DeviceMotionEvent) {
+        window.addEventListener("devicemotion", onMotionUpdate, false);
+    } else {
+        document.addEventListener('mousemove', onMouseUpdate, false);
+    }
 }
 
 // ============================================= UPDATE
 
 function update(time) {   // time in seconds since Jan. 01, 1970 UTC
+    var target = [(1-offset_target[1])*Math.PI/2., offset_target[0]*Math.PI];
+
+    if (target[0] !== offset[0] || target[1] !== offset[1]) {
+        var speed = .1;
+        offset[0] += (target[0] - offset[0])*speed;
+        offset[1] += (target[1] - offset[1])*speed;
+
+        scene.styles.lin.shaders.uniforms.u_offset = offset;
+        scene.styles.roads.shaders.uniforms.u_offset = offset;
+        scene.styles.simpleGrid.shaders.uniforms.u_offset = offset;
+        scene.styles.numericGrid.shaders.uniforms.u_offset = offset;
+        scene.styles.buildings.shaders.uniforms.u_offset = offset;
+    }
+
+    
 
 }
 
@@ -118,4 +141,22 @@ function getHttp (url, callback) {
     };
     request.open(method, url, true);
     request.send();
+}
+
+// ============================================= EVENT
+
+function onMouseUpdate (e) {
+    offset_target[0] = e.pageX/screen.width;
+    offset_target[1] = e.pageY/screen.height;
+}
+
+function onMotionUpdate (e) {
+    var accX = Math.round(event.accelerationIncludingGravity.x*10)/10;  
+    var accY = Math.round(event.accelerationIncludingGravity.y*10)/10;  
+    var motion = [ -accX,-accY ];
+
+    if (scene.styles && motion[0] && motion[1] ) {
+        offset_target[0] += motion[0]/1000;
+        offset_target[1] += motion[1]/1000;
+    }
 }

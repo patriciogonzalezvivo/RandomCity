@@ -13,6 +13,8 @@ styles:
     tilt:
         animated: true
         shaders:
+            uniforms:
+                u_offset: [0,0]
             blocks:
                 global: |
                     mat3 rotateX3D(float phi){
@@ -29,7 +31,7 @@ styles:
                     }
                 position: |
                     float t = u_time*0.05; 
-                    position.xyz = rotateX3D(abs(cos(t))) * rotateZ3D(abs(sin(t))*.5) * position.xyz;
+                    position.xyz = rotateX3D(abs(cos(u_offset.x))) * rotateZ3D(cos(u_offset.y)) * position.xyz;
     lin:
          base: lines
          mix: tilt  
@@ -155,7 +157,7 @@ styles:
                     color.g = randomSerie(st.y, freq, t);
                     color.b = randomSerie(st.y, freq, t-offset);
                     color.rgb *= step(0.1,st.x)-step(0.9,st.x);
-    simple-grid:
+    simpleGrid:
         base: polygons
         mix: [grid, generative-random]
         animated: false
@@ -168,7 +170,7 @@ styles:
                     float time_i = floor(t);
                     float time_f = fract(t);
                     color.rgb += step(0.9,random(st+time_i))*(1.0-time_f);
-    numeric-grid:
+    numericGrid:
         base: polygons
         mix: [grid, generative-random]
         animated: true
@@ -335,7 +337,7 @@ layers:
     earth:
         data: { source: osm }
         draw:
-            simple-grid:
+            simpleGrid:
                 order: 0
                 color: [0.362,0.362,0.362]
     landuse:
@@ -348,7 +350,7 @@ layers:
     water:
         data: { source: osm }
         draw:
-            numeric-grid:
+            numericGrid:
                 order: 3
                 color: [1.000,1.000,1.000]
             outline:
