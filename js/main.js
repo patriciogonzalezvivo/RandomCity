@@ -52,9 +52,9 @@ function init() {
 
     if (window.DeviceMotionEvent) {
         window.addEventListener("devicemotion", onMotionUpdate, false);
-    } else {
-        document.addEventListener('mousemove', onMouseUpdate, false);
     }
+
+    document.addEventListener('mousemove', onMouseUpdate, false);
 }
 
 // ============================================= UPDATE
