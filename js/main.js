@@ -5,8 +5,11 @@
 var latlon, place;
 var placeCounter = 0;
 var createObjectURL = (window.URL && window.URL.createObjectURL) || (window.webkitURL && window.webkitURL.createObjectURL);
-var offset_target = [0, 0];
+var offset_target = [0, 0, 16];
 var offset = [0,0];
+var bMousePressed = false;
+var waitFor = 60;
+var timer = 0;
 
 // ============================================= INIT 
 map = (function () {
@@ -55,18 +58,40 @@ function init() {
     }
 
     document.addEventListener('mousemove', onMouseUpdate, false);
+    document.body.ondrag
+    map.on('mousedown', function () {
+        bMousePressed = true;
+        offset_target[0] = .5;
+        offset_target[1] = 0;
+    });
+
+    map.on('mouseup', function () {
+        bMousePressed = false;
+    });
+
 }
 
 // ============================================= UPDATE
 
 function update(time) {   // time in seconds since Jan. 01, 1970 UTC
+    var speed = .1;
+
+    if (timer === 0) {
+        var d = new Date();
+        var t = d.getTime()/1000;
+        offset_target[0] = .5+Math.abs(Math.sin(t*0.025));
+        offset_target[1] = Math.abs(Math.cos(t*0.025));
+        offset_target[2] = 18+Math.sin(Math.PI*.25+t*0.02)*2.5;        
+    } else if (!bMousePressed) {
+        offset_target[2] = map.getZoom();
+        timer--;
+    }
+
     var target = [(1-offset_target[1])*Math.PI/2., offset_target[0]*Math.PI];
 
     if (target[0] !== offset[0] || target[1] !== offset[1]) {
-        var speed = .1;
         offset[0] += (target[0] - offset[0])*speed;
         offset[1] += (target[1] - offset[1])*speed;
-
         scene.styles.lin.shaders.uniforms.u_offset = offset;
         scene.styles.roads.shaders.uniforms.u_offset = offset;
         scene.styles.simpleGrid.shaders.uniforms.u_offset = offset;
@@ -74,8 +99,7 @@ function update(time) {   // time in seconds since Jan. 01, 1970 UTC
         scene.styles.buildings.shaders.uniforms.u_offset = offset;
     }
 
-    
-
+    map.setZoom( map.getZoom()+(offset_target[2]-map.getZoom())*speed*0.5 );
 }
 
 function updateLocation(text) {
@@ -144,10 +168,12 @@ function getHttp (url, callback) {
 }
 
 // ============================================= EVENT
-
 function onMouseUpdate (e) {
-    offset_target[0] = e.pageX/screen.width;
-    offset_target[1] = e.pageY/screen.height;
+    if (!bMousePressed) {
+        offset_target[0] = e.pageX/screen.width;
+        offset_target[1] = e.pageY/screen.height;
+    }
+    timer = waitFor;
 }
 
 function onMotionUpdate (e) {
