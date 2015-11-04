@@ -8,8 +8,22 @@ var createObjectURL = (window.URL && window.URL.createObjectURL) || (window.webk
 var offset_target = [0, 0, 16];
 var offset = [0,0];
 var bMousePressed = false;
-var waitFor = 60;
+var waitFor = 180;
 var timer = 0;
+var timer2 = 0;
+var bRandomCity = true;
+var jumpEvery = 1000;
+
+var cities = [ [40.70531887544228, -74.00976419448853], // New York
+               [-34.60853891153415,-58.37203572841672], // Buenos Aires
+               [35.69, 139.692],                        // Tokyo
+               [48.85345578180323, 2.3494093081153227], // Paris
+               [52.52102983799353, 13.410161005151533], // Berlin
+               [41.89031260191685, 12.489897096332864], // Rome
+               [31.239100568083142, 121.49866546209958],// Shanghai
+               [41.88974809227126, -87.621372374896],   // Chicago
+               [40.74862572012136, -73.98550831271747]  // Empire State
+               ];
 
 // ============================================= INIT 
 map = (function () {
@@ -69,23 +83,45 @@ function init() {
         bMousePressed = false;
     });
 
+    // map.on('zoomstart', function () {
+        // timer = waitFor;
+    // });
+
+    // map.on('zoomend', function () {
+        // timer = waitFor;
+    // });
+
+    // map.on('viewreset', function() {
+    //     console.log(map.getCenter());
+    // });
 }
 
 // ============================================= UPDATE
 
 function update(time) {   // time in seconds since Jan. 01, 1970 UTC
-    var speed = .1;
+    var speed = .025;
+    // console.log("Timer",timer);
+    // console.log("Timer2",timer2);
+
+    if (bMousePressed) {
+        speed = .1;
+    }
 
     if (timer === 0) {
         var d = new Date();
         var t = d.getTime()/1000;
         offset_target[0] = .5+Math.abs(Math.sin(t*0.025));
         offset_target[1] = Math.abs(Math.cos(t*0.025));
-        offset_target[2] = 18+Math.sin(Math.PI*.25+t*0.02)*2.5;        
+        offset_target[2] = 18+Math.sin(Math.PI*.25+t*0.02)*2.5;
+        timer2++;  
     } else if (!bMousePressed) {
         offset_target[2] = map.getZoom();
         timer--;
     }
+
+    if (bRandomCity && timer2%jumpEvery === 0) {
+        map.setView(cities[Math.floor(Math.random()*cities.length)]);
+    } 
 
     var target = [(1-offset_target[1])*Math.PI/2., offset_target[0]*Math.PI];
 
@@ -182,7 +218,12 @@ function onMotionUpdate (e) {
     var motion = [ -accX,-accY ];
 
     if (scene.styles && motion[0] && motion[1] ) {
-        offset_target[0] += motion[0]/1000;
-        offset_target[1] += motion[1]/1000;
+        offset_target[1] = motion[0]/10 + motion[1]/10;
     }
 }
+
+// MPZN.bug({
+//     name: 'RandomCity',
+//     tweet: 'RandomCity by @patriciogv and powered by @mapzen!',
+//     repo: 'https://github.com/patriciogonzalezvivo/RandomCity/'
+// });
