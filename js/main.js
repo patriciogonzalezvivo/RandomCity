@@ -72,7 +72,7 @@ function init() {
     }
 
     document.addEventListener('mousemove', onMouseUpdate, false);
-    document.body.ondrag
+    // document.body.ondrag
     map.on('mousedown', function () {
         bMousePressed = true;
         offset_target[0] = .5;
