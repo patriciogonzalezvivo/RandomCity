@@ -294,7 +294,6 @@ styles:
                             float t = mod(u_time*20.*(1.+r*.5)+(4324.*amount),500.);
                             vec2 head = vec2(mod(t,50.), floor(t/50.));
 
-                            vec2 offset = vec2(0.1,0.);
                             float pct = 1.0;
                             pct *= step(10.-head.y,ipos.y);// Y
                             pct += (1.0-step(head.x,ipos.x))*step(10.-head.y,ipos.y+1.);   // X
@@ -302,9 +301,7 @@ styles:
                             color.rgb = vec3(pct);
                             
                             // Assign a random value base on the integer coord
-                            color.r *= random(floor(st+vel+offset));
-                            color.g *= random(floor(st+vel));
-                            color.b *= random(floor(st+vel-offset));
+                            color.rgb *= random(floor(st+vel));
 
                             color.rgb = smoothstep(0.,amount,color.rgb*color.rgb);
 
@@ -323,11 +320,7 @@ styles:
                             vel *= vec2(-1.,0.0) * random(1.0+ipos.y); // direction
 
                             // Assign a random value base on the integer coord
-                            vec2 offset = vec2(0.1,0.);
-
-                            color.r = pattern(st+offset,vel,amount);
-                            color.g = pattern(st,vel,amount);
-                            color.b = pattern(st-offset,vel,amount);
+                            color.rgb = vec3(pattern(st,vel,amount));
                             color.rgb *= step(0.2,fpos.y);
                         }
                     } else {
@@ -380,7 +373,7 @@ layers:
         draw:
             buildings: 
                 order: 8
-                color: Style.color.pseudoRandomColor()
+                color: Style.color.pseudoRandomColor
                 extrude: true
             lin:
                 order: 7

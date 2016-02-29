@@ -1,46 +1,98 @@
 <!doctype html>
-<!--
-    Tangram: real-time WebGL rendering for OpenStreetMap
-
-    http://github.com/tangrams/tangram
-    http://mapzen.com
--->
 <html lang="en-us">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>RandomCity</title>
-    <link rel="stylesheet" href="css/leaflet.css" />
-    <link href='https://fonts.googleapis.com/css?family=Jura:400,300,600,500&subset=latin,cyrillic-ext,greek,latin-ext,cyrillic' rel='stylesheet' type='text/css'>
-    <link type='text/css' rel='stylesheet' href="css/style.css">
-  </head>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <title>RandomCity</title>
+        
+        <!-- 3rd party libraries -->
+            <!-- Leaflet -->
+            <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v1.0.0-beta.2/leaflet.css" />
+            <script type="text/javascript" src="http://cdn.leafletjs.com/leaflet/v1.0.0-beta.2/leaflet.js"></script>
 
-  <body>
-    <div id="map"></div>
+            <!-- Leaflet URL hash -->
+            <script type="text/javascript" src="https://rawgit.com/mlevans/leaflet-hash/master/leaflet-hash.js"></script>
 
-    <div id="info" style="position: absolute;" >
-        <p id="loc"><span>|</span></p>
-    </div>
+            <!--
+                Tangram: real-time WebGL rendering for OpenStreetMap
+                http://github.com/tangrams/tangram
+                http://mapzen.com
+            -->
+            <script type="text/javascript" src="https://mapzen.com/tangram/0.5/tangram.min.js"></script>
 
-    <!-- 3rd party libraries -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.0-beta.2/leaflet.js"></script>
-    <!-- bog-standard leaflet URL hash -->
-    <script src="js/leaflet-hash.js"></script>
-    <!-- Tangram library -->
-    <script src="https://mapzen.com/tangram/tangram.min.js"></script>
-    <!-- End of 3rd party libraries -->
+            <!-- Fetch -->
+            <script type="text/javascript" src="https://rawgit.com/github/fetch/master/fetch.js"></script>
+        <!-- End of 3rd party libraries -->
 
-    <!-- Mapzen bug & search bar -->
-    <script src='//s3.amazonaws.com/assets-staging.mapzen.com/ui/mapzen-ui.min.js'></script>
+        <link href='https://fonts.googleapis.com/css?family=Jura:400,300,600,500&subset=latin,cyrillic-ext,greek,latin-ext,cyrillic' rel='stylesheet' type='text/css'>
+        <style>
+            body {
+                font-family: 'Orbitron', Helvetica, Arial;
+                margin: 0px;
+                border: 0px;
+                padding: 0px;
+            }
 
-    <!-- MAIN -->
-    <script src="js/main.js"></script>
-    <style>
-        #mz-citysearch, #mz-geolocator {
-            display: block;
-        }
-    </style>
-    
-  </body>
+            #map {
+                background: black;
+                height: 100%;
+                width: 100%;
+                position: absolute;
+                z-index: 0;
+            }
+
+            #mz-citysearch, #mz-geolocator { 
+                display: none 
+            }
+
+            #info {
+                font-family: 'Jura', Helvetica, Arial, sans-serif;
+                bottom: 20px; 
+                width: 100%;
+                text-align: center;
+                pointer-event: none;
+                color: white;
+                text-outline: 2px 2px black;
+            }
+
+            #loc {
+                background-color: rgba(0,0,0,0.5);
+                display: table;
+                font-size: 18px;
+                margin: 0px auto 0px auto;
+            }
+
+            #loc span{
+              animation: blink 1s infinite;
+              font-size: 28px;
+            }
+
+            @keyframes blink{
+              to{opacity: .0;}
+            }
+
+            .leaflet-control-attribution {
+                font-family: 'Jura', Helvetica, Arial, sans-serif;
+                color: black;
+                background-color: rgba(0,0,0,0.5);
+                background: rgba(0,0,0,0.5);
+            }
+
+            .leaflet-control-attribution a {
+                font-family: 'Jura', Helvetica, Arial, sans-serif;
+                color: black;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div id="map"></div>
+
+        <div id="info" style="position: absolute;" >
+            <p id="loc"><span>|</span></p>
+        </div>
+
+        <script src="main.js"></script> 
+    </body>
 </html>

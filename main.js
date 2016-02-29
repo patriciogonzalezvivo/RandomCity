@@ -30,10 +30,15 @@ map = (function () {
     'use strict';
 
     // Leaflet Map
-    var map = L.map('map',{
-                            scrollWheelZoom: 'center', 
-                            zoomControl: false 
-                        });
+    var map = L.map('map',{ 
+        trackResize: true,
+        keyboard: false,
+        dragging: (window.self !== window.top && L.Browser.touch) ? false : true,
+        tap: (window.self !== window.top && L.Browser.touch) ? false : true,
+        scrollWheelZoom: 'center', 
+        zoomControl: false 
+    });
+
     // Tangram Layer
     var layer = Tangram.leafletLayer({
         scene: 'scene.yaml',
@@ -44,7 +49,7 @@ map = (function () {
     var scene = layer.scene;
     window.scene = scene;
 
-    map.setView([40.70531887544228, -74.00976419448853], 16);
+    map.setView(cities[0], 16);
 
     var hash = new L.Hash(map);
 
@@ -56,23 +61,23 @@ map = (function () {
     return map;
 }());
 
-function init() {
+function init () {
 
     // Scene initialized
     layer.on('init', function() {    
-        window.setInterval("update(getCurrentTime())", 100);
+        window.setInterval('update()', 100);
     });
     layer.addTo(map);
 
-    place="";
-    updateLocation("");
+    place='';
+    updateLocation('');
 
     if (window.DeviceMotionEvent) {
-        window.addEventListener("devicemotion", onMotionUpdate, false);
+        window.addEventListener('devicemotion', onMotionUpdate, false);
     }
 
     document.addEventListener('mousemove', onMouseUpdate, false);
-    // document.body.ondrag
+
     map.on('mousedown', function () {
         bMousePressed = true;
         offset_target[0] = .5;
@@ -82,23 +87,11 @@ function init() {
     map.on('mouseup', function () {
         bMousePressed = false;
     });
-
-    // map.on('zoomstart', function () {
-        // timer = waitFor;
-    // });
-
-    // map.on('zoomend', function () {
-        // timer = waitFor;
-    // });
-
-    // map.on('viewreset', function() {
-    //     console.log(map.getCenter());
-    // });
 }
 
 // ============================================= UPDATE
 
-function update(time) {   // time in seconds since Jan. 01, 1970 UTC
+function update () {   // time in seconds since Jan. 01, 1970 UTC
     var speed = .025;
     // console.log("Timer",timer);
     // console.log("Timer2",timer2);
@@ -138,18 +131,18 @@ function update(time) {   // time in seconds since Jan. 01, 1970 UTC
     map.setZoom( map.getZoom()+(offset_target[2]-map.getZoom())*speed*0.5 );
 }
 
-function updateLocation(text) {
-    if (placeCounter > text.length || place === "") {
+function updateLocation (text) {
+    if (placeCounter > text.length || place === '') {
         placeCounter = 0;
-        text = "";
+        text = '';
         latlon = map.getCenter();
         updateGeocode(latlon.lat, latlon.lng);
         setTimeout(function(){
-            updateLocation("");
+            updateLocation('');
         }, 3000);
     } else {
         setTimeout( function(){
-            document.getElementById('loc').innerHTML = text + "<span>|</span>"; 
+            document.getElementById('loc').innerHTML = text + '<span>|</span>'; 
             updateLocation(text+place.charAt(placeCounter++));
         }, 100);
     }
@@ -161,46 +154,31 @@ function updateGeocode (lat, lng) {
     // They are free! get one at https://mapzen.com/developers/sign_in
     var PELIAS_KEY = 'search--cv2Foc';
 
-    var endpoint = '//search.mapzen.com/v1/reverse?point.lat=' + lat + '&point.lon=' + lng + '&size=1&layers=coarse&api_key=' + PELIAS_KEY;
+    var url = '//search.mapzen.com/v1/reverse?point.lat=' + lat + '&point.lon=' + lng + '&size=1&layers=coarse&api_key=' + PELIAS_KEY;
 
-    getHttp(endpoint, function(err, res){
-        if (err) {
-            console.error(err);
-        }
-
-        // TODO: Much more clever viewport/zoom based determination of current location
-        var response = JSON.parse(res);
-        if (!response.features || response.features.length === 0) {
-            // Sometimes reverse geocoding returns no results
-            place = 'Unknown location';
-        }
-        else {
-            place = response.features[0].properties.label;
-        }
-    });
-}
-
-// ============================================= SET/GET
-
-function getCurrentTime() {   // time in seconds since Jan. 01, 1970 UTC
-  return Math.round(new Date().getTime()/1000);
-}
-
-function getHttp (url, callback) {
-    var request = new XMLHttpRequest();
-    var method = 'GET';
-
-    request.onreadystatechange = function () {
-        if (request.readyState === 4 && request.status === 200) {
-            var response = request.responseText;
-
-            // TODO: Actual error handling
-            var error = null;
-            callback(error, response);
-        }
-    };
-    request.open(method, url, true);
-    request.send();
+    // Make the request and wait for the reply
+    fetch(url)
+        .then(function (response) {
+            // If we get a positive response...
+            if (response.status !== 200) {
+                console.log('Error fetching data. Status code: ' + response.status);
+                return;
+            }
+            // ... parse it to JSON
+            return response.json();
+        })
+        .then(function(json) {
+            if (!json.features || json.features.length === 0) {
+                // Sometimes reverse geocoding returns no results
+                place = 'Unknown location';
+            }
+            else {
+                place = json.features[0].properties.label;
+            }
+        })
+        .catch(function(error) {
+            console.log('Error parsing the JSON.', error)
+        })
 }
 
 // ============================================= EVENT
@@ -221,9 +199,3 @@ function onMotionUpdate (e) {
         offset_target[1] = motion[0]/10 + motion[1]/10;
     }
 }
-
-// MPZN.bug({
-//     name: 'RandomCity',
-//     tweet: 'RandomCity by @patriciogv and powered by @mapzen!',
-//     repo: 'https://github.com/patriciogonzalezvivo/RandomCity/'
-// });

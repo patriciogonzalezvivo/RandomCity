@@ -10,12 +10,7 @@
 
 Patricio studied and practiced psychotherapy and expressive art therapy. He holds an MFA in Design & Technology from Parsons The New School, where he now teaches. Currently he works as a Graphic Engineer at Mapzen making openSource mapping tools.
 
-***Autor**: Patricio González Vivo (Buenos Aires, 1982) es un artista y programador con sede en Nueva York. Él explora los espacios intersticiales entre lo orgánico y sintético, análogo y digital, individual y colectivo*.
-
-*Patricio estudió y practicó psicología y psicoterapia expresiva. Posee una Maestría en Diseño y Tecnología de Parsons The New School, donde ahora enseña. Actualmente se desempeña como Ingeniero Gráfico en Mapzen fabricando herramientas openSource*.
-
-
-## Displaying individual shaders on RaspberryPi
+## Displaying individual Shaders on RaspberryPi
 
 - After installing Raspbian, set the GPU memory to 258
 
