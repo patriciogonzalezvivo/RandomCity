@@ -1,4 +1,4 @@
-![](imgs/image.png)
+![](imgs/image.gif)
 
 # RandomCity
 
