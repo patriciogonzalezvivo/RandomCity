@@ -9,8 +9,8 @@ var offset_target = [0, 0, 16];
 var offset = [0,0];
 var bMousePressed = false;
 var waitFor = 180;
-var timer = 0;
-var timer2 = 0;
+var timer = 1;
+var timer2 = 1;
 var bRandomCity = true;
 var jumpEvery = 1000;
 
