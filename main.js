@@ -70,7 +70,7 @@ function init () {
     layer.addTo(map);
 
     place='';
-    updateLocation();
+    updateLocation('');
 
     if (window.DeviceMotionEvent) {
         window.addEventListener('devicemotion', onMotionUpdate, false);
@@ -130,13 +130,13 @@ function update () {   // time in seconds since Jan. 01, 1970 UTC
 }
 
 function updateLocation (text) {
-    if (!text || placeCounter > text.length || place === '') {
+    if (placeCounter > text.length || place === '') {
         placeCounter = 0;
         text = '';
         latlon = map.getCenter();
         updateGeocode(latlon.lat, latlon.lng);
         setTimeout(function(){
-            updateLocation();
+            updateLocation('');
         }, 3000);
     } else {
         setTimeout( function(){
