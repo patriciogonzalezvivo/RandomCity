@@ -8,13 +8,13 @@ var createObjectURL = (window.URL && window.URL.createObjectURL) || (window.webk
 var offset_target = [0, 0, 16];
 var offset = [0,0];
 var bMousePressed = false;
-var waitFor = 180;
+var waitFor = 100;
 var timer = 1;
 var timer2 = 1;
 var bRandomCity = true;
 var jumpEvery = 1000;
 
-var cities = [ [40.70531887544228, -74.00976419448853], // New York
+var cities = [ [40.70449, -74.01347], // New York
                [-34.60853891153415,-58.37203572841672], // Buenos Aires
                [35.69, 139.692],                        // Tokyo
                [48.85345578180323, 2.3494093081153227], // Paris
@@ -33,6 +33,7 @@ map = (function () {
     var map = L.map('map',{ 
         trackResize: true,
         keyboard: false,
+        maxZoom: 19.5,
         dragging: (window.self !== window.top && L.Browser.touch) ? false : true,
         tap: (window.self !== window.top && L.Browser.touch) ? false : true,
         scrollWheelZoom: 'center', 
@@ -50,7 +51,6 @@ map = (function () {
     window.scene = scene;
 
     map.setView(cities[0], 16);
-
     var hash = new L.Hash(map);
 
     /***** Render loop *****/
@@ -70,7 +70,7 @@ function init () {
     layer.addTo(map);
 
     place='';
-    updateLocation('');
+    updateLocation();
 
     if (window.DeviceMotionEvent) {
         window.addEventListener('devicemotion', onMotionUpdate, false);
@@ -93,8 +93,6 @@ function init () {
 
 function update () {   // time in seconds since Jan. 01, 1970 UTC
     var speed = .025;
-    // console.log("Timer",timer);
-    // console.log("Timer2",timer2);
 
     if (bMousePressed) {
         speed = .1;
@@ -103,10 +101,10 @@ function update () {   // time in seconds since Jan. 01, 1970 UTC
     if (timer === 0) {
         var d = new Date();
         var t = d.getTime()/1000;
-        offset_target[0] = .5+Math.abs(Math.sin(t*0.025));
+        offset_target[0] = Math.abs(Math.sin(t*0.025));
         offset_target[1] = Math.abs(Math.cos(t*0.025));
         offset_target[2] = 18+Math.sin(Math.PI*.25+t*0.02)*2.5;
-        timer2++;  
+        timer2++;
     } else if (!bMousePressed) {
         offset_target[2] = map.getZoom();
         timer--;
@@ -116,7 +114,7 @@ function update () {   // time in seconds since Jan. 01, 1970 UTC
         map.setView(cities[Math.floor(Math.random()*cities.length)]);
     } 
 
-    var target = [(1-offset_target[1])*Math.PI/2., offset_target[0]*Math.PI];
+    var target = [(1-offset_target[1]), offset_target[0]*Math.PI];
 
     if (target[0] !== offset[0] || target[1] !== offset[1]) {
         offset[0] += (target[0] - offset[0])*speed;
@@ -132,13 +130,13 @@ function update () {   // time in seconds since Jan. 01, 1970 UTC
 }
 
 function updateLocation (text) {
-    if (placeCounter > text.length || place === '') {
+    if (!text || placeCounter > text.length || place === '') {
         placeCounter = 0;
         text = '';
         latlon = map.getCenter();
         updateGeocode(latlon.lat, latlon.lng);
         setTimeout(function(){
-            updateLocation('');
+            updateLocation();
         }, 3000);
     } else {
         setTimeout( function(){

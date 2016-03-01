@@ -13,6 +13,9 @@ styles:
     tilt:
         animated: true
         shaders:
+            defines:
+                PI: 3.1415926535897932384626433832795
+                HALF_PI: 1.5707963267948966192313216916398
             uniforms:
                 u_offset: [0,0]
             blocks:
@@ -30,8 +33,11 @@ styles:
                             vec3(0.,0.,1.));
                     }
                 position: |
-                    float t = u_time*0.05; 
-                    position.xyz = rotateX3D(abs(cos(u_offset.x))) * rotateZ3D(cos(u_offset.y)) * position.xyz;
+                    // position.xyz = rotateX3D(abs(cos(u_offset.x))) * rotateZ3D(cos(u_offset.y)) * position.xyz;
+                    float z = smoothstep(0.7,1.,max((u_map_position.z)/20.,0.));
+                    position.xyz = rotateX3D(z*HALF_PI) * rotateZ3D(cos(u_offset.y)) * position.xyz;
+                    position.y -= u_offset.x*(z*100.);
+                    position.z += u_offset.x*(z*1000.);
     lin:
          base: lines
          mix: tilt  
