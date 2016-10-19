@@ -25,6 +25,10 @@ var cities = [ [40.70449, -74.01347], // New York
                [40.74862572012136, -73.98550831271747]  // Empire State
                ];
 
+// This is my API Key for this project. 
+// They are free! get one at https://mapzen.com/developers/sign_in
+var PELIAS_KEY = 'search--cv2Foc';
+
 // ============================================= INIT 
 map = (function () {
     'use strict';
@@ -40,10 +44,12 @@ map = (function () {
         zoomControl: false 
     });
 
+    L.control.geocoder(PELIAS_KEY,{pointIcon: false, markers: false}).addTo(map);
+
     // Tangram Layer
     var layer = Tangram.leafletLayer({
         scene: 'scene.yaml',
-        attribution: '<a href="https://twitter.com/patriciogv" target="_blank">@patriciogv</a> | <a href="https://mapzen.com/tangram" target="_blank">Tangram</a> | &copy; OSM contributors | <a href="https://mapzen.com/" target="_blank">Mapzen</a>'
+        attribution: '<a href="https://twitter.com/patriciogv" target="_blank">@patriciogv</a> | &copy; OSM contributors | <a href="https://mapzen.com/" target="_blank">Mapzen</a>'
     });
 
     window.layer = layer;
@@ -147,11 +153,6 @@ function updateLocation (text) {
 }
 
 function updateGeocode (lat, lng) {
-
-    // This is my API Key for this project. 
-    // They are free! get one at https://mapzen.com/developers/sign_in
-    var PELIAS_KEY = 'search--cv2Foc';
-
     var url = '//search.mapzen.com/v1/reverse?point.lat=' + lat + '&point.lon=' + lng + '&size=1&layers=coarse&api_key=' + PELIAS_KEY;
 
     // Make the request and wait for the reply
